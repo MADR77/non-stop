@@ -1,4 +1,26 @@
-public class NonStop extends Canvas implements Runnable {
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import com.gamc.webs.entity.mob.Player;
+import com.gamc.webs.graphics.Screen;
+import com.gamc.webs.input.KeyInput;
+import com.gamc.webs.input.Mouse;
+import com.gamc.webs.level.Level;
+import com.gamc.webs.sound.SoundManager;
+import com.gamc.webs.sound.SoundType;
+import com.gamc.webs.util.MenuSelection;
+import com.gamc.webs.util.PauseSelection;
+import com.gamc.webs.util.PauseSelection.PausedMenuOption;
+import com.gamc.webs.util.TextDrawer;
+import com.gamc.webs.util.MenuSelection.SelectedMenuOption;
+public class NonStop extends Canvas implements Runnable{
     private static final long serialVersionUID = 1L;
     private static final int WIDTH = 300;
     private static final int HEIGHT = WIDTH / 16 * 9;
@@ -10,16 +32,16 @@ public class NonStop extends Canvas implements Runnable {
     public ScreenState state;
     private Thread thread;
     private JFrame frame;
-    private KeyInput key;
+    private KeyEvent key;
     private Level level;
     private Level menuLevel;
     private Player player;
     public boolean running = false;
     private Screen screen;
-    //public SoundManager mainMenuMusic = new SoundManager(SoundType.MUSIC_THEME);
-    //private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    //private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-    
+    public SoundManager mainMenuMusic = new SoundManager(SoundType.MUSIC_THEME);
+    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+
     public static enum ScreenState {
         MAIN_MENU, 
         OPTIONS, 
@@ -27,7 +49,7 @@ public class NonStop extends Canvas implements Runnable {
         PAUSED, 
         CREDITS;
     }
-    
+
     public NonStop() {
         Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
         setPreferredSize(size);

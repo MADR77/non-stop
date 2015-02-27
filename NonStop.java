@@ -14,13 +14,13 @@ import com.gamc.webs.input.KeyInput;
 import com.gamc.webs.input.Mouse;
 import com.gamc.webs.level.Level;
 import com.gamc.webs.sound.SoundManager;
-import com.gamc.webs.sound.SoundType;
+//import com.gamc.webs.sound.SoundType;
 import com.gamc.webs.util.MenuSelection;
 import com.gamc.webs.util.PauseSelection;
-import com.gamc.webs.util.PauseSelection.PausedMenuOption;
+import com.gamc.webs.util.PauseSelection;
 import com.gamc.webs.util.TextDrawer;
-import com.gamc.webs.util.MenuSelection.SelectedMenuOption;
-public class NonStop extends Canvas implements Runnable{
+import com.gamc.webs.util.MenuSelection;
+public class NonStop{ //extends Canvas implements Runnable{
     private static final long serialVersionUID = 1L;
     private static final int WIDTH = 300;
     private static final int HEIGHT = WIDTH / 16 * 9;
@@ -32,13 +32,13 @@ public class NonStop extends Canvas implements Runnable{
     public ScreenState state;
     private Thread thread;
     private JFrame frame;
-    private KeyEvent key;
+    private KeyInput key;
     private Level level;
     private Level menuLevel;
     private Player player;
     public boolean running = false;
     private Screen screen;
-    public SoundManager mainMenuMusic = new SoundManager(SoundType.MUSIC_THEME);
+    //public SoundManager mainMenuMusic = new SoundManager(SoundType.MUSIC_THEME);
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
@@ -104,5 +104,55 @@ public class NonStop extends Canvas implements Runnable{
     public void setScreen(Screen screen) {
         this.screen.clear();
         this.screen = screen;
+    }
+
+    public synchronized void start() {
+        running = true;
+        thread = new Thread(this, "Display");
+        thread.start();
+    }
+
+    public synchronized void stop() {
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void run() {
+        long lastTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final double ns = 1000000000.0 / UPDATES_PER_SECOND;
+        final double nsFPS = 1000000000.0 / FRAMES_PER_SECOND;
+        double delta = 0;
+        double deltaFPS = 0;
+        int frames = 0;
+        int updates = 0;
+        requestFocus();
+        while (running) {
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            deltaFPS += (now - lastTime) / nsFPS;
+            lastTime = now;
+            while (delta >= 1) {
+                update();
+                updates++;
+                delta--;
+            }
+            while (deltaFPS >= 1) {
+                render();
+                frames++;
+                deltaFPS--;
+            }
+            if (System.currentTimeMillis() - timer > 1000) {
+                timer += 1000;
+                frame.setTitle(TITLE + "  |  Updates: " + updates
+                    + "  |  FPS: " + frames);
+                updates = 0;
+                frames = 0;
+            }
+        }
+        stop();
     }
 }

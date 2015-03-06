@@ -14,13 +14,14 @@ import com.gamc.webs.input.KeyInput;
 import com.gamc.webs.input.Mouse;
 import com.gamc.webs.level.Level;
 import com.gamc.webs.sound.SoundManager;
-//import com.gamc.webs.sound.SoundType;
+import com.gamc.webs.sound.Clips;
 import com.gamc.webs.util.MenuSelection;
 import com.gamc.webs.util.PauseSelection;
 import com.gamc.webs.util.PauseSelection;
 import com.gamc.webs.util.TextDrawer;
 import com.gamc.webs.util.MenuSelection;
-public class NonStop{ //extends Canvas implements Runnable{
+
+public class NonStop extends Canvas implements Runnable{
     private static final long serialVersionUID = 1L;
     private static final int WIDTH = 300;
     private static final int HEIGHT = WIDTH / 16 * 9;
@@ -49,10 +50,23 @@ public class NonStop{ //extends Canvas implements Runnable{
         PAUSED, 
         CREDITS;
     }
+    
+    public static void main(String[] args) {
+        game = new Webs();
+        game.frame.setResizable(true);
+        game.frame.setTitle(Webs.TITLE);
+        game.frame.add(game);
+        game.frame.pack();
+        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.frame.setLocationRelativeTo(null);
+        game.frame.setVisible(true);
+
+        game.start();
+    }
 
     public NonStop() {
         Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
-        setPreferredSize(size);
+        //setPreferredSize(size);
 
         game = this;
         screen = new Screen(WIDTH, HEIGHT);
@@ -65,18 +79,18 @@ public class NonStop{ //extends Canvas implements Runnable{
         player.init(level);
         state = ScreenState.MAIN_MENU;
 
-        addKeyListener(key);
+        //addKeyListener(key);
         Mouse mouse = new Mouse();
-        addMouseListener(mouse);
-        addMouseMotionListener(mouse);
-        mainMenuMusic.loop();
+        //addMouseListener(mouse);
+        //addMouseMotionListener(mouse);
+        //mainMenuMusic.loop();
     }
 
     public static void main(String[] args) {
         game = new NonStop();
         game.frame.setResizable(true);
-        game.frame.setTitle(Webs.TITLE);
-        game.frame.add(game);
+        game.frame.setTitle(NonStop.TITLE);
+        //game.frame.add(game);
         game.frame.pack();
         game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.frame.setLocationRelativeTo(null);
@@ -119,7 +133,7 @@ public class NonStop{ //extends Canvas implements Runnable{
             e.printStackTrace();
         }
     }
-    
+
     public void run() {
         long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
@@ -154,5 +168,62 @@ public class NonStop{ //extends Canvas implements Runnable{
             }
         }
         stop();
+    }
+
+    public void update() {
+        key.update();
+        if (state == ScreenState.LEVEL) {
+            player.update();
+            level.update();
+        }
+    }
+
+    public void render() {
+        BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
+        if (state == ScreenState.MAIN_MENU) {
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            g.setColor(new Color(0x4BB0E6));
+            g.fillRect(0, 0, getWindowWidth(), getWindowHeight());
+            int xScroll = (player.x - screen.width / 2) + 8;
+            int yScroll = (player.y - screen.height / 2) + 8;
+            menuLevel.render(xScroll, yScroll, screen);
+            for (int i = 0; i < pixels.length; i++) {
+                pixels[i] = screen.pixels[i];
+            }
+            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
+            TextDrawer.drawCenteredString("Singleplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.SINGLEPLAYER ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, -75);
+            TextDrawer.drawCenteredString("Multiplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.MULTIPLAYER ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
+            TextDrawer.drawCenteredString("Options", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.OPTIONS ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
+            TextDrawer.drawCenteredString("Quit", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.QUIT ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 150);
+        } else if (state == ScreenState.LEVEL) {
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            int xScroll = (player.x - screen.width / 2) + 8;
+            int yScroll = (player.y - screen.height / 2) + 8;
+            level.render(xScroll, yScroll, screen);
+            player.render(screen);
+            for (int i = 0; i < pixels.length; i++) {
+                pixels[i] = screen.pixels[i];
+            }
+        } else if (state == ScreenState.PAUSED) {
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            int xScroll = (player.x - screen.width / 2) + 8;
+            int yScroll = (player.y - screen.height / 2) + 8;
+            level.render(xScroll, yScroll, screen);
+            for (int i = 0; i < pixels.length; i++) {
+                pixels[i] = screen.pixels[i];
+            }
+            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
+            TextDrawer.drawCenteredString("Game Paused", new Font("Arial", Font.BOLD, 50), new Color(0x30D1C6), getWindowWidth(), getWindowHeight(), g, -75);
+            TextDrawer.drawCenteredString("Back To Game", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.BACK_TO_GAME ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
+            TextDrawer.drawCenteredString("Main Menu", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.MAIN_MENU ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
+        }
+        g.dispose();
+        bs.show();
+        screen.clear();
     }
 }

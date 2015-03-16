@@ -1,0 +1,32 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\r\n\ Main\ method\ that\ runs\ the\ game\r\n\ @args\ Not\ used\r\n
+comment1.params=
+comment1.target=void\ NonStop()
+comment1.text=\r\n\ Returns\ values\ for\ the\ game\ (i.e.\ Dimensions,\ Screen,\ Level,\ etc...)\r\n\ @param\ \r\n
+comment10.params=
+comment10.target=void\ update()
+comment11.params=
+comment11.target=void\ render()
+comment2.params=
+comment2.target=NonStop\ getGame()
+comment2.text=public\ static\ void\ main(String[]\ args)\ {\r\n\ \ \ \ game\ \=\ new\ NonStop();\r\n\ \ \ \ game.frame.setResizable(true);\r\n\ \ \ \ game.frame.setTitle(NonStop.TITLE);\r\n\ \ \ \ //game.frame.add(game);\r\n\ \ \ \ game.frame.pack();\r\n\ \ \ \ game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n\ \ \ \ game.frame.setLocationRelativeTo(null);\r\n\ \ \ \ game.frame.setVisible(true);\r\n\r\n\ \ \ \ game.start();\r\n}
+comment3.params=
+comment3.target=javax.swing.JFrame\ getFrame()
+comment3.text=\r\n\ Returns\ the\ frame\ for\ the\ game.\r\n\ @return\ Returns\ frame.\r\n
+comment4.params=
+comment4.target=int\ getWindowWidth()
+comment4.text=\r\n\ Returns\ the\ width\ of\ the\ window\ screen.\r\n\ @return\ Returns\ width.\r\n
+comment5.params=
+comment5.target=int\ getWindowHeight()
+comment5.text=\r\n\ Returns\ the\ height\ of\ the\ window\ screen.\r\n\ @return\ Returns\ height.\r\n
+comment6.params=screen
+comment6.target=void\ setScreen(com.gamc.webs.graphics.Screen)
+comment7.params=
+comment7.target=void\ start()
+comment8.params=
+comment8.target=void\ stop()
+comment9.params=
+comment9.target=void\ run()
+numComments=12

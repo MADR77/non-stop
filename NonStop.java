@@ -21,6 +21,10 @@ import com.gamc.webs.util.PauseSelection;
 import com.gamc.webs.util.TextDrawer;
 import com.gamc.webs.util.MenuSelection;
 
+/**
+ * A class that creates the game NonStop
+ * @author Michael-Anthony De Rose
+ */
 public class NonStop extends Canvas implements Runnable{
     private static final long serialVersionUID = 1L;
     private static final int WIDTH = 300;
@@ -50,11 +54,15 @@ public class NonStop extends Canvas implements Runnable{
         PAUSED, 
         CREDITS;
     }
-    
+
+    /**
+     * Main method that runs the game
+     * @args Not used
+     */
     public static void main(String[] args) {
-        game = new Webs();
+        game = new NonStop();
         game.frame.setResizable(true);
-        game.frame.setTitle(Webs.TITLE);
+        game.frame.setTitle(NonStop.TITLE);
         game.frame.add(game);
         game.frame.pack();
         game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +72,11 @@ public class NonStop extends Canvas implements Runnable{
         game.start();
     }
 
-    public NonStop() {
+    /**
+     * Returns values for the game (i.e. Dimensions, Screen, Level, etc...)
+     * @param 
+     */
+    public void NonStop() {
         Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
         //setPreferredSize(size);
 
@@ -86,31 +98,43 @@ public class NonStop extends Canvas implements Runnable{
         //mainMenuMusic.loop();
     }
 
-    public static void main(String[] args) {
-        game = new NonStop();
-        game.frame.setResizable(true);
-        game.frame.setTitle(NonStop.TITLE);
-        //game.frame.add(game);
-        game.frame.pack();
-        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        game.frame.setLocationRelativeTo(null);
-        game.frame.setVisible(true);
+    /*public static void main(String[] args) {
+    game = new NonStop();
+    game.frame.setResizable(true);
+    game.frame.setTitle(NonStop.TITLE);
+    //game.frame.add(game);
+    game.frame.pack();
+    game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    game.frame.setLocationRelativeTo(null);
+    game.frame.setVisible(true);
 
-        game.start();
-    }
+    game.start();
+    }*/
 
     public static NonStop getGame() {
         return game;
     }
 
+    /**
+     * Returns the frame for the game.
+     * @return Returns frame.
+     */   
     public JFrame getFrame() {
         return frame;
     }
 
+     /**
+     * Returns the width of the window screen.
+     * @return Returns width.
+     */
     public int getWindowWidth() {
         return getGame().getWidth();
     }
 
+     /**
+     * Returns the height of the window screen.
+     * @return Returns height.
+     */
     public int getWindowHeight() {
         return getGame().getHeight();
     }
@@ -196,10 +220,10 @@ public class NonStop extends Canvas implements Runnable{
                 pixels[i] = screen.pixels[i];
             }
             TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
-            TextDrawer.drawCenteredString("Singleplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.SINGLEPLAYER ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, -75);
-            TextDrawer.drawCenteredString("Multiplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.MULTIPLAYER ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
-            TextDrawer.drawCenteredString("Options", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.OPTIONS ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
-            TextDrawer.drawCenteredString("Quit", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.QUIT ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 150);
+            //TextDrawer.drawCenteredString("Singleplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.SINGLEPLAYER ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, -75);
+            //TextDrawer.drawCenteredString("Multiplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.MULTIPLAYER ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
+            //TextDrawer.drawCenteredString("Options", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.OPTIONS ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
+            //TextDrawer.drawCenteredString("Quit", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.QUIT ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 150);
         } else if (state == ScreenState.LEVEL) {
             g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             int xScroll = (player.x - screen.width / 2) + 8;
@@ -219,8 +243,8 @@ public class NonStop extends Canvas implements Runnable{
             }
             TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
             TextDrawer.drawCenteredString("Game Paused", new Font("Arial", Font.BOLD, 50), new Color(0x30D1C6), getWindowWidth(), getWindowHeight(), g, -75);
-            TextDrawer.drawCenteredString("Back To Game", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.BACK_TO_GAME ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
-            TextDrawer.drawCenteredString("Main Menu", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.MAIN_MENU ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
+            //TextDrawer.drawCenteredString("Back To Game", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.BACK_TO_GAME ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
+            //TextDrawer.drawCenteredString("Main Menu", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.MAIN_MENU ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
         }
         g.dispose();
         bs.show();

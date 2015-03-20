@@ -11,7 +11,6 @@ comment11.params=
 comment11.target=void\ render()
 comment2.params=
 comment2.target=NonStop\ getGame()
-comment2.text=public\ static\ void\ main(String[]\ args)\ {\r\n\ \ \ \ game\ \=\ new\ NonStop();\r\n\ \ \ \ game.frame.setResizable(true);\r\n\ \ \ \ game.frame.setTitle(NonStop.TITLE);\r\n\ \ \ \ //game.frame.add(game);\r\n\ \ \ \ game.frame.pack();\r\n\ \ \ \ game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\r\n\ \ \ \ game.frame.setLocationRelativeTo(null);\r\n\ \ \ \ game.frame.setVisible(true);\r\n\r\n\ \ \ \ game.start();\r\n}
 comment3.params=
 comment3.target=javax.swing.JFrame\ getFrame()
 comment3.text=\r\n\ Returns\ the\ frame\ for\ the\ game.\r\n\ @return\ Returns\ frame.\r\n

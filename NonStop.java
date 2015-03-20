@@ -78,7 +78,7 @@ public class NonStop extends Canvas implements Runnable{
      */
     public void NonStop() {
         Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
-        //setPreferredSize(size);
+        setPreferredSize(size);
 
         game = this;
         screen = new Screen(WIDTH, HEIGHT);
@@ -91,25 +91,12 @@ public class NonStop extends Canvas implements Runnable{
         player.init(level);
         state = ScreenState.MAIN_MENU;
 
-        //addKeyListener(key);
+        addKeyListener(key);
         Mouse mouse = new Mouse();
-        //addMouseListener(mouse);
-        //addMouseMotionListener(mouse);
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
         //mainMenuMusic.loop();
     }
-
-    /*public static void main(String[] args) {
-    game = new NonStop();
-    game.frame.setResizable(true);
-    game.frame.setTitle(NonStop.TITLE);
-    //game.frame.add(game);
-    game.frame.pack();
-    game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    game.frame.setLocationRelativeTo(null);
-    game.frame.setVisible(true);
-
-    game.start();
-    }*/
 
     public static NonStop getGame() {
         return game;
@@ -219,7 +206,7 @@ public class NonStop extends Canvas implements Runnable{
             for (int i = 0; i < pixels.length; i++) {
                 pixels[i] = screen.pixels[i];
             }
-            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
+            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Earth", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
             //TextDrawer.drawCenteredString("Singleplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.SINGLEPLAYER ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, -75);
             //TextDrawer.drawCenteredString("Multiplayer", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.MULTIPLAYER ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
             //TextDrawer.drawCenteredString("Options", new Font("Arial", Font.BOLD, MenuSelection.selection == SelectedMenuOption.OPTIONS ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
@@ -241,7 +228,7 @@ public class NonStop extends Canvas implements Runnable{
             for (int i = 0; i < pixels.length; i++) {
                 pixels[i] = screen.pixels[i];
             }
-            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Plantagenet Cherokee", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
+            TextDrawer.drawCenteredString("The Fallen Empire", new Font("Earth", Font.PLAIN, 60), new Color(255, 50, 50), getWindowWidth(), getWindowHeight(), g, -150);
             TextDrawer.drawCenteredString("Game Paused", new Font("Arial", Font.BOLD, 50), new Color(0x30D1C6), getWindowWidth(), getWindowHeight(), g, -75);
             //TextDrawer.drawCenteredString("Back To Game", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.BACK_TO_GAME ? 40 : 30),Color.WHITE, getWindowWidth(), getWindowHeight(), g, 0);
             //TextDrawer.drawCenteredString("Main Menu", new Font("Arial", Font.BOLD, PauseSelection.selection == PausedMenuOption.MAIN_MENU ? 40 : 30), Color.WHITE, getWindowWidth(), getWindowHeight(), g, 75);
